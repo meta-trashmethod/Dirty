@@ -22,6 +22,8 @@ local FluentModded = {} do
             makefolder(self.Folder)
         end
 
+        delfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg");
+
         if not isfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg") then
             writefile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg", "[]");
         end
@@ -33,7 +35,7 @@ local FluentModded = {} do
         for Idx, Option in next, self.Options do
             if (not table.find(self.Ignore, Idx)) then
                 if Option.Type then
-                    Config[Idx] = Option.Type == "Colorpicker" and {Option.Value, Option.Transparency} or Option.Type == "Keybind" and {Option.Value, Option.Mode} or Option.Value
+                    Config[Idx] = Option.Type == "Colorpicker" and {{Option.Value}, Option.Transparency} or Option.Type == "Keybind" and {Option.Value, Option.Mode} or Option.Value
                 end
             end
         end
