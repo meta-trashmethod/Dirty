@@ -2,6 +2,8 @@ local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
+local FluentModded = loadstring(game:HttpGet("https://raw.githubusercontent.com/meta-trashmethod/Dirty/main/FluentModded.lua"))()
+
 local Window = Fluent:CreateWindow({
     Title = "Fluent " .. Fluent.Version,
     SubTitle = "by dawid",
@@ -220,6 +222,9 @@ do
         print("Input updated:", Input.Value)
     end)
 end
+
+FluentModded:Setup(Fluent)
+FluentModded:Build(Tabs.Settings)
 
 --[[
 -- Addons:
