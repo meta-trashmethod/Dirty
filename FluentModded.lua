@@ -62,22 +62,22 @@ local FluentModded = {} do
             Title = "Theme",
             Description = "Changes the interface theme.",
             Values = Library.Themes,
-            Default = self.Settings.SettingsInterfaceTheme,
+            Default = FluentModded.Settings.SettingsInterfaceTheme,
             Callback = function(Value)
                 Library:SetTheme(Value)
-                self.Settings.SettingsInterfaceTheme = Value
-                self:Save()
+                FluentModded.Settings.SettingsInterfaceTheme = Value
+                FluentModded:Save()
             end
         });
 
         Section:AddToggle("SettingsInterfaceTransparency", {
             Title = "Transparency",
             Description = "Makes the interface transparent.",
-            Default = self.Settings.SettingsInterfaceTransparency,
+            Default = FluentModded.Settings.SettingsInterfaceTransparency,
             Callback = function(Value)
                 Library:ToggleTransparency(Value)
-                self.Settings.SettingsInterfaceTransparency = Value
-                self:Save()
+                FluentModded.Settings.SettingsInterfaceTransparency = Value
+                FluentModded:Save()
             end
         });
 
