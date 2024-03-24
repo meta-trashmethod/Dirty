@@ -35,7 +35,7 @@ local FluentModded = {} do
         for Idx, Option in next, self.Options do
             if (not table.find(self.Ignore, Idx)) then
                 if Option.Type then
-                    Config[Idx] = Option.Type == "Colorpicker" and {{Option.Value}, Option.Transparency} or Option.Type == "Keybind" and {Option.Value, Option.Mode} or Option.Value
+                    Config[Idx] = Option.Type == "Colorpicker" and {{Option.Value[1], Option.Value[2], Option.Value[3] }, Option.Transparency} or Option.Type == "Keybind" and {Option.Value, Option.Mode} or Option.Value
                 end
             end
         end
@@ -62,22 +62,22 @@ local FluentModded = {} do
             Title = "Theme",
             Description = "Changes the interface theme.",
             Values = Library.Themes,
-            Default = FluentModded.Settings.SettingsInterfaceTheme,
+            Default = self.Settings.SettingsInterfaceTheme,
             Callback = function(Value)
                 Library:SetTheme(Value)
-                FluentModded.Settings.SettingsInterfaceTheme = Value
-                FluentModded:Save()
+                self.Settings.SettingsInterfaceTheme = Value
+                self:Save()
             end
         });
 
         Section:AddToggle("SettingsInterfaceTransparency", {
             Title = "Transparency",
             Description = "Makes the interface transparent.",
-            Default = FluentModded.Settings.SettingsInterfaceTransparency,
+            Default = self.Settings.SettingsInterfaceTransparency,
             Callback = function(Value)
                 Library:ToggleTransparency(Value)
-                FluentModded.Settings.SettingsInterfaceTransparency = Value
-                FluentModded:Save()
+                self.Settings.SettingsInterfaceTransparency = Value
+                self:Save()
             end
         });
 
