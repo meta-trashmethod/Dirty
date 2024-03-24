@@ -54,16 +54,31 @@ local FluentModded = {} do
     function FluentModded:Build(Tab)
         local Library = self.Library
         
-        local Section = {
-            [1] = Tab:AddSection("Interface"),
-            [2] = Tab:AddSection("Configuration")
-        }
+        local Section = Tab:AddSection("Interface")
 
-        Section[1]:AddDropdown("SettingsInterfaceTheme", { Title = "Theme", Description = "Changes the interface theme.", Values = Library.Themes, Default = self.Settings.SettingsInterfaceTheme }):OnChanged(function(Value) self.Library:SetTheme(Value) self.Settings.SettingsInterfaceTheme = Value self:Save("Theme") end)
-        Section[1]:AddToggle("SettingsInterfaceTransparency", { Title = "Transparency", Description = "Makes the interface transparent.", Default = self.Settings.SettingsInterfaceTransparency }):OnChanged(function(Value) self.Library:SetTransparency(Value) self.Settings.SettingsInterfaceTransparency = Value self:Save("Theme") end)
-        Section[1]:AddKeybind("SettingsInterfaceMenuKeybind", { Title = "Minimize Bind", Default = self.Settings.SettingsInterfaceMenuKeybind }):OnChanged(function(Value) self.Settings.SettingsInterfaceMenuKeybind = Value self:Save("Theme") end)
+        Section:AddDropdown("SettingsInterfaceTheme", {
+            Title = "Theme",
+            Description = "Changes the interface theme.",
+            Values = Library.Themes,
+            Default = self.Settings.SettingsInterfaceTheme,
+            Callback = function(Value)
+                Library:SetTheme(Value)
+                self.Settings.SettingsInterfaceTheme = Value
+                self:Save()
+            end
+        });
 
-        self.Library.MinimizeKeybind = self.Options.SettingsInterfaceMenuKeybind
+        Section:AddToggle("SettingsInterfaceTransparency", {
+            Title = "Transparency",
+            Description = "Makes the interface transparent.",
+            Default = self.Settings.SettingsInterfaceTransparency,
+            Callback = function(Value)
+                Library:ToggleTransparency(Value)
+                self.Settings.SettingsInterfaceTransparency = Value
+                self:Save()
+            end
+        });
+
     end
 
     
