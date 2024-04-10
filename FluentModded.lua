@@ -21,8 +21,8 @@ local FluentModded = {} do
         if not isfolder(self.Folder) then
             makefolder(self.Folder)
         end
-
-        delfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg");
+    
+        if isfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg") then delfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg");
 
         if not isfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg") then
             writefile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg", "[]");
