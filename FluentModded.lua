@@ -30,6 +30,8 @@ local FluentModded = {} do
             if (not table.find(self.Ignored, Idx)) then
                 if Option.Type then
                     if Option.Type == "Colorpicker" then
+                        for o,oo in next, Option do print(o, oo); end;
+                        print(Option.Hue, Option.Sat, Option.Vit)
                         Config[Idx] = {Option.Value};
                     elseif Option.Type == "Keybind" then
                         Config[Idx] = {Option.Value, Option.Mode};
