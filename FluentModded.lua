@@ -1,31 +1,25 @@
-local HttpService = game:GetService("HttpService")
-local LocalPlayer = game:GetService("Players").LocalPlayer
-
-local bb="TEST"
-
+local HttpService = game:GetService('HttpService');
+local LocalPlayer = game:GetService('Players').LocalPlayer;
 
 local FluentModded = {} do
 
-    FluentModded.Ignore = {}
-    FluentModded.Folder = "Anastassy"
-    FluentModded.Settings = {
-        SettingsInterfaceTheme = "Aqua",
-        SettingsInterfaceTransparency = true,
-        SettingsInterfaceMenuKeybind = "Home",
-    }
+    FluentModded.Folder = "Anastassy/Test_" .. LocalPlayer.Name .. ".cfg";
+    FluentModded.Ignored = {};
 
     function FluentModded:Setup(Library)
-        self.Library = Library
-        self.Options = Library.Options
+        self.Library = Library;
+        self.Options = Library.Options;
 
-        if not isfolder(self.Folder) then
-            makefolder(self.Folder)
+        if not isfolder("Anastassy") then
+            makefolder("Anastassy");
         end
-    
-        if isfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg") then delfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg");end;
 
-        if not isfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg") then
-            writefile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg", "[]");
+        if isfile("Anastassy/Test_" .. LocalPlayer.Name .. ".cfg") then
+            delfile("Anastassy/Test_" .. LocalPlayer.Name .. ".cfg");
+        end
+
+        if not isfile("Anastassy/Test_" .. LocalPlayer.Name .. ".cfg") then
+            writefile("Anastassy/Test_" .. LocalPlayer.Name .. ".cfg", "[]");
         end
     end
 
@@ -33,57 +27,49 @@ local FluentModded = {} do
         local Config = {};
 
         for Idx, Option in next, self.Options do
-            if (not table.find(self.Ignore, Idx)) then
+            if (not table.find(self.Ignored, Idx)) then
                 if Option.Type then
-                    Config[Idx] = Option.Type == "Colorpicker" and {{Option.Value[1], Option.Value[2], Option.Value[3] }, Option.Transparency} or Option.Type == "Keybind" and {Option.Value, Option.Mode} or Option.Value
-                end
-            end
-        end
-
-        writefile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg", HttpService:JSONEncode(Config));
+                    if Option.Type == "Colorpicker" then
+                        Config[Idx] = {Option.Value};
+                    elseif Option.Type == "Keybind" then
+                        Config[Idx] = {Option.Value, Option.Mode};
+                    else
+                        Config[Idx] = Option.Value;
+                    end
+                end;
+            end;
+        end;
+        print(HttpService:JSONEncode(Config));
+        writefile(self.Folder, HttpService:JSONEncode(Config));
     end
 
     function FluentModded:Load()
-        local Config = HttpService:JSONDecode(readfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg"));
 
-        for Option, Value in next, Config do
-            if self.Options[Option] and (not table.find(self.Ignore, Option)) then
-                self.Options[Option]:SetValue(Value);
-            end
-        end
     end
 
     function FluentModded:Build(Tab)
-        local Library = self.Library
-        
-        local Section = Tab:AddSection("Interface")
+        local Library = self.Library;
+        local Section = Tab:Section("Interface");
 
         Section:AddDropdown("SettingsInterfaceTheme", {
             Title = "Theme",
             Description = "Changes the interface theme.",
             Values = Library.Themes,
-            Default = self.Settings.SettingsInterfaceTheme,
+            Default = "Aqua",
             Callback = function(Value)
                 Library:SetTheme(Value)
-                self.Settings.SettingsInterfaceTheme = Value
-                self:Save()
+                FluentModded:Save()
             end
         });
 
         Section:AddToggle("SettingsInterfaceTransparency", {
             Title = "Transparency",
             Description = "Makes the interface transparent.",
-            Default = self.Settings.SettingsInterfaceTransparency,
+            Default = true,
             Callback = function(Value)
                 Library:ToggleTransparency(Value)
-                self.Settings.SettingsInterfaceTransparency = Value
-                self:Save()
+                FluentModded:Save()
             end
         });
-
     end
-
-    
 end
-
-return FluentModded
