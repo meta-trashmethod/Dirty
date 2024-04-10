@@ -22,7 +22,7 @@ local FluentModded = {} do
             makefolder(self.Folder)
         end
     
-        if isfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg") then delfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg");
+        if isfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg") then delfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg");end;
 
         if not isfile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg") then
             writefile(self.Folder .. "/" .. bb .. "_" .. LocalPlayer.Name .. ".cfg", "[]");
