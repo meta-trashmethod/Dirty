@@ -30,9 +30,7 @@ local FluentModded = {} do
             if (not table.find(self.Ignored, Idx)) then
                 if Option.Type then
                     if Option.Type == "Colorpicker" then
-                        for o,oo in next, Option do print(o, oo); end;
-                        print(Option.Hue, Option.Sat, Option.Vit)
-                        Config[Idx] = {Option.Value};
+                        Config[Idx] = {Option.Hue,Option.Sat, Option.Vib};
                     elseif Option.Type == "Keybind" then
                         Config[Idx] = {Option.Value, Option.Mode};
                     else
@@ -41,12 +39,17 @@ local FluentModded = {} do
                 end;
             end;
         end;
-        print(HttpService:JSONEncode(Config));
         writefile(self.Folder, HttpService:JSONEncode(Config));
     end
 
     function FluentModded:Load()
+        local Config = HttpService:JSONDecode(readfile(self.Folder));
 
+        for Option, Value in next, Config do
+            if self.Options[Option] and (not table.find(self.Ignored, Option)) then
+                self.Option[Option]:SetValue(Value);
+            end
+        end
     end
 
     function FluentModded:Build(Tab)
