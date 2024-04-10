@@ -49,7 +49,7 @@ local FluentModded = {} do
 
     function FluentModded:Build(Tab)
         local Library = self.Library;
-        local Section = Tab:Section("Interface");
+        local Section = Tab:AddSection("Interface");
 
         Section:AddDropdown("SettingsInterfaceTheme", {
             Title = "Theme",
