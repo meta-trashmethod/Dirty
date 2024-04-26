@@ -117,7 +117,7 @@ end);
 end;
 end);
 
-local t={"Skill Z","Skill X","Skill C","Skill V","Skill F","Skill E","Skill B",}
+local t={"Skill Z","Skill X","Skill C","Skill V","Skill F","Skill E","Skill B"}
 
 n:AddDropdown("Selected_Skill",{Title="Select Skill",Values=t,Multi=true});
 
