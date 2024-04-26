@@ -6,9 +6,9 @@ local d=game:GetService"HttpService";
 local e=game:GetService"Players".LocalPlayer;
 local f={}do
 
-function f.Setup(g,h,i)
-g.Library=h;
-g.Options=h.Options;
+function f:Setup(g,h)
+self.Library=g;
+self.Options=g.Options;
 
 if not isfolder"Anastassy"then
 makefolder"Anastassy";
@@ -18,38 +18,38 @@ if not isfile("Anastassy/"..c.."_"..e.Name..".cfg")then
 writefile("Anastassy/"..c.."_"..e.Name..".cfg","[]");
 end;
 
-local j=i:AddSection"Interface";
+local i=h:AddSection"Interface";
 
-j:AddDropdown("SettingsInterfaceTheme",{
+i:AddDropdown("SettingsInterfaceTheme",{
 Title="Theme",
 Description="Changes the interface theme.",
-Values=h.Themes,
-Default=h.Theme,
-Callback=function(k)
-h:SetTheme(k);
+Values=g.Themes,
+Default=g.Theme,
+Callback=function(j)
+g:SetTheme(j);
 f:Save();
 end
 });
 
-j:AddToggle("SettingsInterfaceTransparent",{
+i:AddToggle("SettingsInterfaceTransparent",{
 Title="Transparency",
 Description="Makes the interface transparent.",
 Default=true,
-Callback=function(k)
-h:ToggleTransparency(k);
+Callback=function(j)
+g:ToggleTransparency(j);
 f:Save();
 end
 });
 
-j:AddKeybind("SettingsInterfaceMenuKeybind",{
+i:AddKeybind("SettingsInterfaceMenuKeybind",{
 Title="Minimize Bind",
 Default="Insert",
-Callback=function(k)
+Callback=function(j)
 f:Save();
 end;
 });
 
-h.MinimizeKeybind=h.Options.SettingsInterfaceMenuKeybind;
+g.MinimizeKeybind=g.Options.SettingsInterfaceMenuKeybind;
 end;
 end;
 
