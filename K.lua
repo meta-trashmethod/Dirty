@@ -6,9 +6,9 @@ local d=game:GetService"Players".LocalPlayer;
 local e="TESTMOD"
 local f={}do
 
-function f.Setup(g,h,i)
-g.Library=h;
-g.Options=h.Options;
+function f:Setup(g,h)
+self.Library=g;
+self.Options=g.Options;
 
 if not isfolder"Anastassy"then
 makefolder"Anastassy";
@@ -18,68 +18,68 @@ if not isfile("Anastassy/"..e.."_"..d.Name..".cfg")then
 writefile("Anastassy/"..e.."_"..d.Name..".cfg","[]");
 end;
 
-local j=i:AddSection"Interface";
+local i=h:AddSection"Interface";
 
-j:AddDropdown("SettingsInterfaceTheme",{
+i:AddDropdown("SettingsInterfaceTheme",{
 Title="Theme",
 Description="Changes the interface theme.",
-Values=h.Themes,
-Default=h.Theme,
-Callback=function(k)
-h:SetTheme(k);
+Values=g.Themes,
+Default=g.Theme,
+Callback=function(j)
+g:SetTheme(j);
 f:Save();
 end
 });
 
-j:AddToggle("SettingsInterfaceTransparent",{
+i:AddToggle("SettingsInterfaceTransparent",{
 Title="Transparency",
 Description="Makes the interface transparent.",
 Default=true,
-Callback=function(k)
-h:ToggleTransparency(k);
+Callback=function(j)
+g:ToggleTransparency(j);
 f:Save();
 end
 });
 
-j:AddKeybind("SettingsInterfaceMenuKeybind",{
+i:AddKeybind("SettingsInterfaceMenuKeybind",{
 Title="Minimize Bind",
 Default="Insert",
-Callback=function(k)
+Callback=function(j)
 f:Save();
 end;
 });
 
-h.MinimizeKeybind=h.Options.SettingsInterfaceMenuKeybind;
+g.MinimizeKeybind=g.Options.SettingsInterfaceMenuKeybind;
 end;
-function f.Save(g)
-local h={};
+function f:Save()
+local g={};
 
-for i,j in next,g.Options do
-if j.Type then
-if j.Type=="Colorpicker"then
-h[i]={Color={j.Hue,j.Sat,j.Vib},Transparency=j.Transparency};
-elseif j.Type=="Keybind"then
-h[i]={Key=j.Value,Mode=j.Mode};
+for h,i in next,self.Options do
+if i.Type then
+if i.Type=="Colorpicker"then
+g[h]={Color={i.Hue,i.Sat,i.Vib},Transparency=i.Transparency};
+elseif i.Type=="Keybind"then
+g[h]={Key=i.Value,Mode=i.Mode};
 else
-h[i]=j.Value;
+g[h]=i.Value;
 end;
 end;
 end;
 
-writefile("Anastassy/"..e.."_"..d.Name..".cfg",c:JSONEncode(h));
+writefile("Anastassy/"..e.."_"..d.Name..".cfg",c:JSONEncode(g));
 end;
 
-function f.Load(g)
-local h=c:JSONDecode(readfile("Anastassy/"..e.."_"..d.Name..".cfg"));
+function f:Load()
+local g=c:JSONDecode(readfile("Anastassy/"..e.."_"..d.Name..".cfg"));
 
-for i,j in next,h do
-if g.Options[i]then
-if j.Color and j.Transparency then
-g.Options[i]:SetValue(j.Color,j.Transparency);
-elseif j.Key and j.Mode then
-g.Options[i]:SetValue(j.Key,j.Mode);
+for h,i in next,g do
+if self.Options[h]then
+if i.Color and i.Transparency then
+self.Options[h]:SetValue(i.Color,i.Transparency);
+elseif i.Key and i.Mode then
+self.Options[h]:SetValue(i.Key,i.Mode);
 else
-g.Options[i]:SetValue(j);
+self.Options[h]:SetValue(i);
 end;
 end;
 end;
