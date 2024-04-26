@@ -149,7 +149,7 @@ end);
 
 f:Setup(b,k)
 g:SelectTab(1);
-
+f:Load()
 local r=tick()-a;
 b:Notify{Title="Anastassy",Content="Loaded.",Duration=8};
 b:Notify{Title="Anastassy",Content=string.format("Time Taken : %s Seconds",r)};
