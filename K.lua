@@ -1,62 +1,92 @@
-
 local a=tick();
 local b=loadstring(game:HttpGet"https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua")();
-local c="TESTMOD";
-local d=game:GetService"HttpService";
-local e=game:GetService"Players".LocalPlayer;
+local c=game:GetService"HttpService";
+local d=game:GetService"Players".LocalPlayer;
+
+local e="TESTMOD"
 local f={}do
 
-function f:Setup(g,h)
-self.Library=g;
-self.Options=g.Options;
+function f.Setup(g,h,i)
+g.Library=h;
+g.Options=h.Options;
 
 if not isfolder"Anastassy"then
 makefolder"Anastassy";
 end;
 
-if not isfile("Anastassy/"..c.."_"..e.Name..".cfg")then
-writefile("Anastassy/"..c.."_"..e.Name..".cfg","[]");
+if not isfile("Anastassy/"..e.."_"..d.Name..".cfg")then
+writefile("Anastassy/"..e.."_"..d.Name..".cfg","[]");
 end;
 
-local i=h:AddSection"Interface";
+local j=i:AddSection"Interface";
 
-i:AddDropdown("SettingsInterfaceTheme",{
+j:AddDropdown("SettingsInterfaceTheme",{
 Title="Theme",
 Description="Changes the interface theme.",
-Values=g.Themes,
-Default=g.Theme,
-Callback=function(j)
-g:SetTheme(j);
+Values=h.Themes,
+Default=h.Theme,
+Callback=function(k)
+h:SetTheme(k);
 f:Save();
 end
 });
 
-i:AddToggle("SettingsInterfaceTransparent",{
+j:AddToggle("SettingsInterfaceTransparent",{
 Title="Transparency",
 Description="Makes the interface transparent.",
 Default=true,
-Callback=function(j)
-g:ToggleTransparency(j);
+Callback=function(k)
+h:ToggleTransparency(k);
 f:Save();
 end
 });
 
-i:AddKeybind("SettingsInterfaceMenuKeybind",{
+j:AddKeybind("SettingsInterfaceMenuKeybind",{
 Title="Minimize Bind",
 Default="Insert",
-Callback=function(j)
+Callback=function(k)
 f:Save();
 end;
 });
 
-g.MinimizeKeybind=g.Options.SettingsInterfaceMenuKeybind;
+h.MinimizeKeybind=h.Options.SettingsInterfaceMenuKeybind;
+end;
+function f.Save(g)
+local h={};
+
+for i,j in next,g.Options do
+if j.Type then
+if j.Type=="Colorpicker"then
+h[i]={Color={j.Hue,j.Sat,j.Vib},Transparency=j.Transparency};
+elseif j.Type=="Keybind"then
+h[i]={Key=j.Value,Mode=j.Mode};
+else
+h[i]=j.Value;
+end;
 end;
 end;
 
-local g=game:GetService"Players";
-local h=g.LocalPlayer;
+writefile("Anastassy/"..e.."_"..d.Name..".cfg",c:JSONEncode(h));
+end;
 
-local i=b:CreateWindow{
+function f.Load(g)
+local h=c:JSONDecode(readfile("Anastassy/"..e.."_"..d.Name..".cfg"));
+
+for i,j in next,h do
+if g.Options[i]then
+if j.Color and j.Transparency then
+g.Options[i]:SetValue(j.Color,j.Transparency);
+elseif j.Key and j.Mode then
+g.Options[i]:SetValue(j.Key,j.Mode);
+else
+g.Options[i]:SetValue(j);
+end;
+end;
+end;
+end;
+end;
+
+local g=b:CreateWindow{
 Title="King Legacy",
 SubTitle="by Anastassy",
 TabWidth=160,
@@ -65,51 +95,51 @@ Acrylic=true,
 Theme="Aqua"
 };
 
-local j=i:AddTab{Title="Main",Icon="layers"};
+local h=g:AddTab{Title="Main",Icon="layers"};
 
-local k=i:AddTab{Title="Stats",Icon="bar-chart-horizontal-big"};
+local i=g:AddTab{Title="Stats",Icon="bar-chart-horizontal-big"};
 
-local l=i:AddTab{Title="Teleport",Icon="map-pin"};
+local j=g:AddTab{Title="Teleport",Icon="map-pin"};
 
-local m=i:AddTab{Title="Settings",Icon="settings"};
+local k=g:AddTab{Title="Settings",Icon="settings"};
 
 
-local n=j:AddSection"Level";
+local l=h:AddSection"Level";
 
-n:AddToggle("Auto_Farm_Level",{Title="Auto Farm Level",Default=false});
-n:AddToggle("Auto_Next_World",{Title="Auto Next World",Default=true});
+l:AddToggle("Auto_Farm_Level",{Title="Auto Farm Level",Default=false});
+l:AddToggle("Auto_Next_World",{Title="Auto Next World",Default=true});
 
 getgenv().Tool={};
 pcall(function()
-for o,p in next,h.Backpack:GetChildren()do
+for m,n in next,d.Backpack:GetChildren()do
+if n:IsA"Tool"and not table.find(getgenv().Tool,n.Name)then
+table.insert(getgenv().Tool,n.Name);
+end
+end
+for o,p in next,d.Character:GetChildren()do
 if p:IsA"Tool"and not table.find(getgenv().Tool,p.Name)then
 table.insert(getgenv().Tool,p.Name);
 end
 end
-for q,r in next,h.Character:GetChildren()do
-if r:IsA"Tool"and not table.find(getgenv().Tool,r.Name)then
-table.insert(getgenv().Tool,r.Name);
-end
-end
 end)
 
-n:AddDropdown("Selected_Weapons",{Title="Select Combat / Weapons",Values=getgenv().Tool,Multi=false});
+l:AddDropdown("Selected_Weapons",{Title="Select Combat / Weapons",Values=getgenv().Tool,Multi=false});
 
 task.spawn(function()
 while true do
 wait(1);
 pcall(function()
-for q in next,getgenv().Tool do
-getgenv().Tool[q]=nil
+for o in next,getgenv().Tool do
+getgenv().Tool[o]=nil
 end
-for r,s in next,h.Backpack:GetChildren()do
+for p,q in next,d.Backpack:GetChildren()do
+if q:IsA"Tool"and not table.find(getgenv().Tool,q.Name)then
+table.insert(getgenv().Tool,q.Name);
+end
+end
+for r,s in next,d.Character:GetChildren()do
 if s:IsA"Tool"and not table.find(getgenv().Tool,s.Name)then
 table.insert(getgenv().Tool,s.Name);
-end
-end
-for t,u in next,h.Character:GetChildren()do
-if u:IsA"Tool"and not table.find(getgenv().Tool,u.Name)then
-table.insert(getgenv().Tool,u.Name);
 end
 end
 b.Options.Selected_Weapons:SetValues(getgenv().Tool);
@@ -117,9 +147,10 @@ end);
 end;
 end);
 
-f:Setup(b,m)
-i:SelectTab(1);
+f:Setup(b,k)
+g:SelectTab(1);
 
-local u=tick()-a;
+local r=tick()-a;
 b:Notify{Title="Anastassy",Content="Loaded.",Duration=8};
-b:Notify{Title="Anastassy",Content=string.format("Time Taken : %s Seconds",u)};warn("Loaded.")
+b:Notify{Title="Anastassy",Content=string.format("Time Taken : %s Seconds",r)};
+warn'Loaded.'
