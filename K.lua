@@ -117,13 +117,9 @@ end);
 end;
 end);
 
-local t={"Skill Z","Skill X","Skill C","Skill V","Skill F","Skill E","Skill B"}
-
-n:AddDropdown("Selected_Skill",{Title="Select Skill",Values=t,Multi=true});
-
 f:Setup(b,m)
 i:SelectTab(1);
 
 local u=tick()-a;
 b:Notify{Title="Anastassy",Content="Loaded.",Duration=8};
-b:Notify{Title="Anastassy",Content=string.format("Time Taken : %s Seconds",u)};
+b:Notify{Title="Anastassy",Content=string.format("Time Taken : %s Seconds",u)};warn("Loaded.")
